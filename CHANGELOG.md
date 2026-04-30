@@ -68,6 +68,7 @@ Docs: https://docs.openclaw.ai
 - Codex harness: forward OpenClaw workspace bootstrap files such as `SOUL.md` through native Codex config instructions while leaving `AGENTS.md` to Codex project-doc discovery. Fixes #76273. Thanks @zknicker.
 - Parallels/Windows update smoke: escape the stale post-swap import regex in the generated PowerShell script so expected `ERR_MODULE_NOT_FOUND` update handoffs continue to post-update health checks. (#75315)
 - Slack: allow draft preview streaming in top-level DMs when `replyToMode` is `off` while keeping Slack native streaming and assistant thread status gated on reply threads. Fixes #56480. (#56544) Thanks @HangGlidersRule.
+- Direct APNs: route direct HTTP/2 delivery through the active managed proxy so push requests honor configured egress controls, and let `openclaw proxy validate --apns-reachable` prove APNs is reachable through the proxy before deployment. (#74905) Thanks @jesse-merhi.
 
 ## 2026.5.2
 

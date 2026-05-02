@@ -40,6 +40,14 @@ describe("run-additional-boundary-checks", () => {
     );
   });
 
+  it("keeps the raw HTTP/2 import guard in source boundary checks", () => {
+    expect(BOUNDARY_CHECKS).toContainEqual({
+      label: "lint:tmp:no-raw-http2-imports",
+      command: "pnpm",
+      args: ["run", "lint:tmp:no-raw-http2-imports"],
+    });
+  });
+
   it("buffers grouped output and reports aggregate failures", async () => {
     const buffer = createOutputBuffer();
     const failures = await runChecks(

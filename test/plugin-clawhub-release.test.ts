@@ -309,7 +309,7 @@ describe("plugin-clawhub-publish.sh", () => {
     const markerPath = join(repoDir, "clawhub-invoked");
     mkdirSync(binDir, { recursive: true });
     const clawhubPath = join(binDir, "clawhub");
-    writeFileSync(clawhubPath, `#!/usr/bin/env bash\nprintf invoked > "${markerPath}"\nexit 42\n`);
+    writeFileSync(clawhubPath, `#!/usr/bin/env bash\nprintf invoked > ${JSON.stringify(markerPath)}\nexit 42\n`);
     chmodSync(clawhubPath, 0o755);
 
     const output = execFileSync(

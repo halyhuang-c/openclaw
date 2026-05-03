@@ -1,6 +1,6 @@
 import { execFileSync } from "node:child_process";
 import { chmodSync, existsSync, mkdirSync, writeFileSync } from "node:fs";
-import { join } from "node:path";
+import { join, delimiter } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import {
   collectClawHubPublishablePluginPackages,
@@ -309,7 +309,10 @@ describe("plugin-clawhub-publish.sh", () => {
     const markerPath = join(repoDir, "clawhub-invoked");
     mkdirSync(binDir, { recursive: true });
     const clawhubPath = join(binDir, "clawhub");
-    writeFileSync(clawhubPath, `#!/usr/bin/env bash\nprintf invoked > ${JSON.stringify(markerPath)}\nexit 42\n`);
+    writeFileSync(
+      clawhubPath,
+      `#!/usr/bin/env bash\nprintf invoked > ${JSON.stringify(markerPath)}\nexit 42\n`,
+    );
     chmodSync(clawhubPath, 0o755);
 
     const output = execFileSync(
@@ -324,12 +327,12 @@ describe("plugin-clawhub-publish.sh", () => {
         encoding: "utf8",
         env: {
           ...process.env,
-          PATH: `${binDir}:${process.env.PATH ?? ""}`,
+          PATH: `${binDir}${delimiter}${process.env.PATH ?? ""}`,
         },
       },
     );
 
-    expect(output).toContain("Publish command: clawhub package publish");
+    expect(output).toContain("Publish command: CLAWHUB_WORKDIR=");
     expect(output).toContain("Dry run: not invoking ClawHub publish.");
     expect(existsSync(markerPath)).toBe(false);
   });
